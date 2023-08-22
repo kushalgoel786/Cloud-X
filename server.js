@@ -19,7 +19,11 @@ initializeApp({
 
 // Database
 import { Sequelize } from "sequelize";
-const sequelize = new Sequelize(process.env.DB_URL, { logging: false });
+import pg from "pg";
+const sequelize = new Sequelize(process.env.DB_URL, {
+  logging: false,
+  dialectModule: pg,
+});
 
 // Models
 import fileModel from "./models/FileModel.js";
@@ -99,4 +103,4 @@ try {
   process.exit(1);
 }
 
-module.exports = app
+export default app;
