@@ -1,5 +1,5 @@
 {
-  "outputDirectory": null,
+  "outputDirectory": "",
   "buildCommand": "npm run setup-prod",
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
