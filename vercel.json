@@ -1,9 +1,0 @@
-{
-  "functions": {
-    "server.js": {
-      "memory": 1024
-    }
-  },
-  "buildCommand": "npm run setup-prod",
-  "rewrites": [{ "source": "/(.*)", "destination": "server.js" }]
-}
