@@ -1,6 +1,8 @@
 {
   "function": {
-    "server.js": {}
+    "server.js": {
+      "runtime": "@vercel/node"
+    }
   },
   "installCommand": "npm setup-prod",
   "rewrites": [{ "source": "/(.*)", "destination": "server.js" }]
