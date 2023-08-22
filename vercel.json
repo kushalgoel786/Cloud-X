@@ -1,5 +1,5 @@
 {
-  "function": {
+  "functions": {
     "server.js": {
       "runtime": "@vercel/node"
     }
