@@ -1,7 +1,4 @@
 {
-  "functions": {
-    "server.js": {}
-  },
   "installCommand": "npm setup-prod",
   "rewrites": [{ "source": "/(.*)", "destination": "server.js" }]
 }
