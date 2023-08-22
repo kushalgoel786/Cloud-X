@@ -1,4 +1,4 @@
 {
-  "installCommand": "npm setup-prod",
+  "buildCommand": "npm setup-prod",
   "rewrites": [{ "source": "/(.*)", "destination": "/api" }]
 }
