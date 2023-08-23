@@ -4,6 +4,9 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const uploadFile = async (url, file) => {
+  // we have to put
+  // we have to send file type for it to appear on firebase
+  // we have to send the file directly
   const resp = await axios.put(url, file, {
     headers: {
       "Content-Type": file.type,
