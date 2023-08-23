@@ -22,6 +22,8 @@ export const addFile = async (req, res) => {
   const bucket = getStorage().bucket();
   const fileRef = bucket.file(fileName);
 
+  // add file type to signed url for upload,
+  // so that only that file type can be uploaded
   const signingOptions = {
     version: "v4",
     action: "write",
@@ -49,8 +51,9 @@ export const getFile = async (req, res) => {
   const signingOptions = {
     version: "v4",
     action: "read",
-    expires: Date.now() + 5 * 60 * 1000,
+    expires: Date.now() + 1 * 60 * 1000,
   };
+
   //Check for empty file name
   //fileRef.exists()
 

@@ -32,6 +32,14 @@ const File = () => {
       a.style.display = "none";
       document.body.appendChild(a);
 
+      /*
+      Old code - 
+        let a = document.createElement("a");
+        a.innerText = "Link";
+        a.href = downloadURL;
+        this.insertAdjacentElement("afterend", a);
+      */
+
       // Set the blob as the href and trigger a click on the anchor
       const objectUrl = URL.createObjectURL(blob);
       a.href = objectUrl;

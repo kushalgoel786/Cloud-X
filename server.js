@@ -8,6 +8,7 @@ dotenv.config();
 import express from "express";
 const app = express();
 app.use(express.json());
+// app.use(express.urlencoded({ extended: true }))
 
 // GCP Initialize Cloud Storage
 import { initializeApp, cert } from "firebase-admin/app";
