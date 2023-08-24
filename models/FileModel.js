@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 export default function (sequelize) {
   const File = sequelize.define(
-    "file2",
+    "file",
     {
       name: DataTypes.STRING,
       owner: {

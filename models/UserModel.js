@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 
 export default function (sequelize) {
   const User = sequelize.define(
-    "user2",
+    "user",
     {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
