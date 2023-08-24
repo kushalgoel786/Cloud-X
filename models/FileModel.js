@@ -9,7 +9,7 @@ export default function (sequelize) {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-          model: "user2s",
+          model: "users",
           key: "id",
         },
       },
