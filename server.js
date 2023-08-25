@@ -1,3 +1,15 @@
+// Logger
+import winston from "winston";
+
+const logger = winston.createLogger({
+  level: "info",
+  // format: winston.format.json(),
+  format: winston.format.simple(),
+  transports: [new winston.transports.Console()],
+});
+
+logger.info("Starting the Server 🎉 🎉 🎉 !");
+
 import "express-async-errors";
 
 // Load ENV Variables
@@ -11,12 +23,14 @@ app.use(express.json());
 // app.use(express.urlencoded({ extended: true }))
 
 // GCP Initialize Cloud Storage
+logger.info("Attempting to connect to GCP Cloud Storage");
 import { initializeApp, cert } from "firebase-admin/app";
 const serviceAccount = JSON.parse(process.env.GCP_KEY);
 initializeApp({
   credential: cert(serviceAccount),
   storageBucket: "cloudxapi.appspot.com",
 });
+logger.info("Connected to GCP Cloud Storage");
 
 // Database
 import { Sequelize } from "sequelize";
@@ -91,13 +105,14 @@ app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 8000;
 
 try {
-  // initialize database
+  logger.info("Attempting to connect to Supabase Postgres");
   await sequelize.authenticate();
   sequelize.sync({ alter: true });
+  logger.info("Connected to Supabase Postgres");
 
   // spin up the server
   app.listen(port, () => {
-    console.log(`Server running on PORT ${port}....`);
+    logger.info(`Server running on PORT ${port}... 🎉 🎉 🎉 !`);
   });
 } catch (error) {
   console.log(error);

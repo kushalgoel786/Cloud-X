@@ -1,7 +1,8 @@
-import { Form, Link, redirect, useLoaderData } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 import customFetch from "../utils/customFetch";
 import { toast } from "react-toastify";
 import { useDashboardContext } from "./Dashboard";
+import { BackButton, DownloadButton, DeleteButton } from "../components";
 
 export const loader = async ({ params }) => {
   const { id } = params;
@@ -23,21 +24,16 @@ const File = () => {
 
   return (
     <div>
-      <Link to="/dashboard" className="underline hover:text-fuchsia-500">
-        Back
-      </Link>
+      <BackButton to="/dashboard" />
       {isShared && <p className="mt-1 text-green-700">Shared File</p>}
-      <p className="text-2xl my-2">{file.name}</p>
-      <p>Created at: {file.createdAt}</p>
-      {/* Download File Form */}
-      <Form method="post" action={`download`}>
-        <input type="text" name="name" value={file.name} hidden readOnly />
-        <button
-          type="submit"
-          className="bg-fuchsia-500 text-white py-1 px-3 rounded-lg hover:bg-fuchsia-600">
-          Download
-        </button>
-      </Form>
+      <div className="flex items-center">
+        <div className="mr-10">
+          <p className="text-2xl my-2">{file.name}</p>
+          <p>Created at: {file.createdAt}</p>
+        </div>
+        {/* Download File Form */}
+        <DownloadButton name={file.name} />
+      </div>
       {!isShared && (
         <>
           <Form method="patch" className="my-4" action={`update`}>
@@ -55,13 +51,7 @@ const File = () => {
               Submit
             </button>
           </Form>
-          <Form method="post" action={`delete`}>
-            <button
-              className="bg-red-500 text-white py-1 px-3 rounded-lg"
-              type="submit">
-              Delete File
-            </button>
-          </Form>
+          <DeleteButton />
         </>
       )}
     </div>
