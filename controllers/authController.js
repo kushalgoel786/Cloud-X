@@ -9,6 +9,17 @@ export const register = async (req, res) => {
   req.body.password = hashedPassword;
 
   const user = await User.create(req.body);
+
+  const token = createJWT({ userId: user.id });
+
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  res.cookie("token", token, {
+    httpOnly: true,
+    expires: new Date(Date.now() + oneDay),
+    secure: process.env.NODE_ENV === "production",
+  });
+
   res.status(StatusCodes.CREATED).json({ msg: "Registration Successful" });
 };
 

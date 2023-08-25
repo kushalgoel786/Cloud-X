@@ -16,7 +16,9 @@ import {
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
 import { action as uploadAction } from "./pages/Upload";
-import { action as deleteFileAction } from "./pages/DeleteFile.jsx";
+import { action as downloadAction } from "./actions/DownloadFile";
+import { action as deleteFileAction } from "./actions/DeleteFile";
+import { action as updateFileAction } from "./actions/UpdateFile";
 
 // LOADERS
 import { loader as dashboardLoader } from "./pages/Dashboard";
@@ -67,11 +69,21 @@ const router = createBrowserRouter([
             path: "file/:id",
             element: <File />,
             loader: fileLoader,
+            children: [
+              {
+                path: "download",
+                action: downloadAction,
+              },
+              {
+                path: "delete",
+                action: deleteFileAction,
+              },
+              {
+                path: "update",
+                action: updateFileAction,
+              },
+            ],
           },
-          {
-            path: "delete-file/:id", 
-            action: deleteFileAction,
-          }
         ],
       },
     ],
