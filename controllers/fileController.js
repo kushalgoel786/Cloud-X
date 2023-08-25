@@ -12,6 +12,7 @@ export const getAllFiles = async (req, res) => {
 };
 
 export const addFile = async (req, res) => {
+  //Check for empty file name
   req.body.owner = req.user.userId;
 
   // supabase
@@ -36,31 +37,27 @@ export const addFile = async (req, res) => {
 };
 
 export const getFile = async (req, res) => {
-  const { id } = req.params;
-  const file = await File.findOne({
-    where: {
-      id,
-    },
-  });
+  const file = req.file;
+  res.status(StatusCodes.OK).json({ file });
+};
 
+export const downloadFile = async (req, res) => {
+  const { id } = req.params;
   // Firebase
   const fileName = id.toString();
-  const bucket = getStorage().bucket();
-  const fileRef = bucket.file(fileName);
+  const fileRef = getStorage().bucket().file(fileName);
+
+  const threeSec = 3 * 1000;
 
   const signingOptions = {
     version: "v4",
     action: "read",
-    expires: Date.now() + 1 * 60 * 1000,
+    expires: Date.now() + threeSec,
   };
 
-  //Check for empty file name
-  //fileRef.exists()
-
-  // const url = await getDownloadURL(fileRef);
   const [url] = await fileRef.getSignedUrl(signingOptions);
 
-  res.status(StatusCodes.OK).json({ file, url });
+  res.status(StatusCodes.OK).json({ url });
 };
 
 export const deleteFile = async (req, res) => {
@@ -75,6 +72,18 @@ export const deleteFile = async (req, res) => {
   await fileRef.delete();
 
   res.status(StatusCodes.OK).json({ msg: "File deleted" });
+};
+
+export const updateFile = async (req, res) => {
+  const { id } = req.params;
+  if (!req.body.is_public) {
+    req.body.is_public = false;
+  }
+  // const updatedFile = await File.update(req.body);
+  await File.update(req.body, { where: { id } });
+
+  // res.status(StatusCodes.OK).json({ msg: "File updated", job: updatedJob });
+  res.status(StatusCodes.OK).json({ msg: "File updated" });
 };
 
 /* 
@@ -128,16 +137,6 @@ export const getAllJobs = async (req, res) => {
     .status(StatusCodes.OK)
     .json({ totalJobs, numOfPages, currentPage: page, jobs });
 };
-
-export const updateJob = async (req, res) => {
-  const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-
-  res.status(StatusCodes.OK).json({ msg: 'job modified', job: updatedJob });
-};
-
-
 
 export const showStats = async (req, res) => {
   let stats = await Job.aggregate([

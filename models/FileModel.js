@@ -4,7 +4,7 @@ export default function (sequelize) {
   const File = sequelize.define(
     "file",
     {
-      name: DataTypes.STRING,
+      name: { type: DataTypes.STRING, allowNull: false },
       owner: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -13,21 +13,17 @@ export default function (sequelize) {
           key: "id",
         },
       },
+      is_public: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
     }
-      // id: {
-      //   type: DataTypes.INTEGER,
-      //   autoIncrement: true,
-      //   allowNull: false,
-      //   primaryKey: true,
-      // },
-      // name: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
-      // owner: {
-      //   type: DataTypes.STRING,
-      //   allowNull: false,
-      // },
+    // id: {
+    //   type: DataTypes.INTEGER,
+    //   autoIncrement: true,
+    //   allowNull: false,
+    //   primaryKey: true,
     // },
     // {
     //   /**

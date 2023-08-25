@@ -37,15 +37,19 @@ const withValidationErrors = (validateValues) => {
 };
 
 export const validateFileInput = withValidationErrors([
-  // body("owner").notEmpty().withMessage("owner is required"),
   body("name").notEmpty().withMessage("name is required"),
+  // body("owner").notEmpty().withMessage("owner is required"),
 ]);
 
-export const validateIdParam = withValidationErrors([
+export const validateId = withValidationErrors([
   param("id")
     .notEmpty()
     .withMessage("Id is required")
     .isInt()
+    /*
+      const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
+      if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id');
+    */
     .withMessage("Id must be int")
     .custom(async (id, { req }) => {
       const file = await File.findOne({
@@ -55,18 +59,41 @@ export const validateIdParam = withValidationErrors([
       });
 
       if (!file) throw new NotFoundError(`No file with id ${id}`);
-      const isOwner = req.user.userId === file.owner;
 
-      /*
-  
+      const isOwner = req.user.userId === file.owner;
+      const isPublic = file.is_public;
+
+      req.file = file;
+
+      if (isPublic) return true;
+
+      if (!isOwner)
+        throw new UnauthorizedError("Not authorized to access this route");
+    }),
+]);
+
+export const validateIdOwner = withValidationErrors([
+  param("id")
+    .notEmpty()
+    .withMessage("Id is required")
+    .isInt()
+    /*
     const isValidMongoId = mongoose.Types.ObjectId.isValid(value);
     if (!isValidMongoId) throw new BadRequestError('invalid MongoDB id');
+  */
+    .withMessage("Id must be int")
+    .custom(async (id, { req }) => {
+      const file = await File.findOne({
+        where: {
+          id,
+        },
+      });
 
-    if (!isAdmin && !isOwner)
-      throw UnauthorizedError('not authorized to access this route');
-  }),
-]);
-*/
+      if (!file) throw new NotFoundError(`No file with id ${id}`);
+
+      const isOwner = req.user.userId === file.owner;
+
+      req.file = file;
 
       if (!isOwner)
         throw new UnauthorizedError("Not authorized to access this route");

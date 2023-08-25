@@ -5,19 +5,25 @@ import {
   addFile,
   getFile,
   deleteFile,
+  updateFile,
+  downloadFile,
 } from "../controllers/fileController.js";
 
 import {
   validateFileInput,
-  validateIdParam,
+  validateId,
+  validateIdOwner,
 } from "../middlewares/validationMiddleware.js";
 
 router.route("/").get(getAllFiles).post(validateFileInput, addFile);
 
 router
   .route("/:id")
-  .get(validateIdParam, getFile)
-  .delete(validateIdParam, deleteFile);
-// .patch(checkForTestUser, validateFileInput, validateIdParam, updateJob)
+  .get(validateId, getFile)
+  .delete(validateIdOwner, deleteFile)
+  // .patch(validateFileInput, validateIdOwner, updateFile);
+  .patch(validateIdOwner, updateFile);
+
+router.route("/:id/download").get(validateId, downloadFile);
 
 export default router;
