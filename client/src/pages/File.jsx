@@ -37,18 +37,22 @@ const File = () => {
       {!isShared && (
         <>
           <Form method="patch" className="my-4" action={`update`}>
-            <label htmlFor="is_public">Public</label>
+            <p className="mb-2 text-lg">
+              File Access: {file.is_public ? "Public" : "Private"}
+            </p>
             <input
+              hidden
               type="checkbox"
               className="w-4 h-4 mx-4"
               name="is_public"
               id="is_public"
-              defaultChecked={file.is_public ? true : false}
+              checked={file.is_public ? false : true}
+              readOnly
             />
             <button
               type="submit"
               className="bg-green-600 text-white py-1 px-3 rounded-lg hover:bg-green-700">
-              Submit
+              Make {file.is_public ? "Private" : "Public"}
             </button>
           </Form>
           <DeleteButton />
