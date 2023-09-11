@@ -27,7 +27,7 @@ const Files = () => {
           to={`./file/${id}`}
           key={id}
           // onClick={() => downloadFile(id, name)}
-          className="block p-1 hover:text-fuchsia-700 cursor-pointer">
+          className="block p-1 mb-1 hover:text-fuchsia-700 cursor-pointer">
           {name}
         </Link>
       ))}
