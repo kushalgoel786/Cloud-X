@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BsGithub } from "react-icons/bs";
 
 const Landing = () => {
   return (
@@ -19,6 +20,13 @@ const Landing = () => {
           Login
         </Link>
       </p>
+      {/* Add github link */}
+      <a href="https://github.com/kushalgoel786/CloudX" target="_blank">
+        <div className="flex items-center absolute bottom-4 right-4 px-4 py-2 bg-black rounded-lg">
+          <BsGithub className="h-5 w-5 mr-2" />
+          Github
+        </div>
+      </a>
     </main>
   );
 };
