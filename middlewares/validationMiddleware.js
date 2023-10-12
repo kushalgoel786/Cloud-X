@@ -26,7 +26,7 @@ const withValidationErrors = (validateValues) => {
           throw new NotFoundError(errorMessages);
         }
         if (errorMessages[0].startsWith("Not authorized")) {
-          throw new UnauthorizedError("Not authorized to access this route");
+          throw new UnauthorizedError("Not authorized to access this file");
         }
 
         throw new BadRequestError(errorMessages);
@@ -62,13 +62,19 @@ export const validateId = withValidationErrors([
 
       const isOwner = req.user.userId === file.owner;
       const isPublic = file.is_public;
+      const sharedWith = file.sharedWith;
 
       req.file = file;
 
-      if (isPublic) return true;
-
-      if (!isOwner)
-        throw new UnauthorizedError("Not authorized to access this route");
+      if (isOwner) {
+        return true;
+      } else if (isPublic && sharedWith.isEmpty()) {
+        return true;
+      } else if (isPublic && sharedWith.includes(req.user.userId)) {
+        return true;
+      } else {
+        throw new UnauthorizedError("Not authorized to access this file");
+      }
     }),
 ]);
 

@@ -18,6 +18,11 @@ export default function (sequelize) {
         allowNull: false,
         defaultValue: false,
       },
+      sharedWith: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: false,
+        defaultValue: [],
+      },
     }
     // id: {
     //   type: DataTypes.INTEGER,
