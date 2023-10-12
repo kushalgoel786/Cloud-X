@@ -107,7 +107,7 @@ const port = process.env.PORT || 8000;
 try {
   logger.info("Attempting to connect to Supabase Postgres");
   await sequelize.authenticate();
-  sequelize.sync({ force: true });
+  sequelize.sync({ alter: true });
   logger.info("Connected to Supabase Postgres");
 
   // spin up the server
