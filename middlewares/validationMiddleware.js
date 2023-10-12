@@ -68,7 +68,7 @@ export const validateId = withValidationErrors([
 
       if (isOwner) {
         return true;
-      } else if (isPublic && sharedWith.isEmpty()) {
+      } else if (isPublic && sharedWith.isEmpty) {
         return true;
       } else if (isPublic && sharedWith.includes(req.user.userId)) {
         return true;
